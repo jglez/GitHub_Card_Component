@@ -15,6 +15,9 @@ axios
 
   scaffold.appendChild(newCard);
 })
+.catch(err => {
+  console.log('no bueno')
+})
 
 
 /* STEP 2: Inspect and study the data coming back, this is YOUR
@@ -36,7 +39,16 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+
+followersArray.forEach(link => {
+  axios
+  .get('https://api.github.com/users/' + link)
+  .then(res => {
+    const newCard = gitHubCardMaker(res.data);
+    scaffold.appendChild(newCard);
+  });
+});
 
 /*STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -57,7 +69,8 @@ const followersArray = [];
     </div> */
 
 function gitHubCardMaker(obj) {
-  const cardDiv = document.createElement('div');
+  debugger;
+  const cardDiv = document.createElement('div'); 
   cardDiv.classList.add('card');
 
   const image = document.createElement('img');
@@ -81,7 +94,7 @@ function gitHubCardMaker(obj) {
   profile.textContent = 'Profile: ';
 
   const gitHubURL = document.createElement('a');
-  gitHubURL.href = obj.url;
+  gitHubURL.href = obj.html_url;
   gitHubURL.textContent = 'GitHub';
   
   const followers = document.createElement('p');
